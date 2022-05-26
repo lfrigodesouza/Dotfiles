@@ -1,0 +1,41 @@
+#    __    ___________   _   ______________
+#   / /   / ____/ ___/  / | / / ____/_  __/
+#  / /   / /_   \__ \  /  |/ / __/   / /
+# / /___/ __/  ___/ / / /|  / /___  / /
+#/_____/_/    /____(_)_/ |_/_____/ /_/
+# https://LFrigoDeSouza.NET
+# https://github.com/lfrigodesouza/Dotfiles
+# 
+# Configuration file for Alacritty terminal emulator
+
+### IMPORTS ###
+import:
+ - ~/.config/alacritty/dracula-pro.yml #DraculaPRO theme
+
+### FONTS ###
+font:
+  size: 10.0
+  normal:
+    family: FiraCode Nerd Font
+  bold:
+    family: FiraCode Nerd Font
+  italic:
+    family: FiraCode Nerd Font
+
+### WINDOW ###
+window:
+  dimensions: # Initial window size
+    columns: 110
+    lines: 25
+  opacity: 0.95 # Window opacity, from 0.0 to 1.0 
+  padding: # Add a blank space around the terminal content
+    x: 5
+    y: 5
+
+### CURSOR ###
+cursor:
+  style:
+    shape: underline
+  thickness: 0.3 # Increase cursor size
+  
+

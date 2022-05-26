@@ -1,0 +1,251 @@
+//    __    ___________   _   ______________
+//   / /   / ____/ ___/  / | / / ____/_  __/
+//  / /   / /_   \__ \  /  |/ / __/   / /
+// / /___/ __/  ___/ / / /|  / /___  / /
+///_____/_/    /____(_)_/ |_/_____/ /_/
+// https://LFrigoDeSouza.NET
+// https://github.com/lfrigodesouza/Dotfiles
+// 
+// Custom theme for oh-my-posh prompt engine. Works on both Windows and Linux.
+
+{
+  "$schema": "https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json",
+  "blocks": [
+    {
+      // Segments displayed to the left of the prompt line
+      "alignment": "left",
+      "type": "prompt",
+      "segments": [
+        {
+          // Shows the current OS icon.
+          "background": "#6F6B6A",
+          "foreground": "#FFFFFF",
+          "powerline_symbol": "\ue0b0",
+          "properties": {
+            "wsl_separator": " \uf105 "
+          },
+          "style": "powerline",
+          "template": " {{ if .WSL }}WSL {{ end }}{{.Icon}} ",
+          "type": "os"
+        },
+        {
+          // Shows an icon when the terminal is being ran as administrator or the user is root
+          "background": "#F36943",
+          "foreground": "#FFFFFF",
+          "powerline_symbol": "\ue0b0",
+          "style": "diamond",
+          "template": " \uf0e7 ",
+          "trailing_diamond": "\ue0b0",
+          "type": "root"
+        },
+        {
+          // Shows current path
+          "background": "#FFFFFF",
+          "foreground": "#000000",
+          "leading_diamond": "<transparent></>",
+          "properties": {
+            "home_icon": "~",
+            "style": "full"
+          },
+          "style": "diamond",
+          "template": "<transparent>\ue0b0 \ue5fe </> {{ .Path }} ",
+          "trailing_diamond": "\ue0b0",
+          "type": "path"
+        },
+        {
+          // Shows whenever the directory is a git repository.
+          "background": "#16C98D",
+          "background_templates": [
+            "{{ if or (.Working.Changed) (.Staging.Changed) }}#ffeb42{{ end }}",
+            "{{ if and (gt .Ahead 0) (gt .Behind 0) }}#ff0000{{ end }}",
+            "{{ if gt .Ahead 0 }}#ff0000{{ end }}",
+            "{{ if gt .Behind 0 }}#ff0000{{ end }}"
+          ],
+          "foreground": "#000000",
+          "properties": {
+            "branch_icon": "\ue725",
+            "fetch_stash_count": true,
+            "fetch_status": true,
+            "fetch_upstream_icon": true
+          },
+          "style": "diamond",
+          "template": "<transparent>\ue0b0</> {{ .HEAD }} {{ .BranchStatus }}{{ if .Working.Changed }} \uf044 {{ .Working.String }}{{ end }}{{ if and (.Staging.Changed) (.Working.Changed) }} |{{ end }}{{ if .Staging.Changed }} \uf046 {{ .Staging.String }}{{ end }}{{ if gt .StashCount 0}} \uf692 {{ .StashCount }}{{ end }}{{ if gt .WorktreeCount 0}} \uf1bb {{ .WorktreeCount }}{{ end }} ",
+          "trailing_diamond": "\ue0b0",
+          "type": "git"
+        },
+        {
+          // Shows whether last command succeeded or failed
+          "background": "#50fa7b",
+          "background_templates": [
+            "{{ if gt .Code 0 }}#ff5555{{ end }}"
+          ],
+          "foreground": "#ffffff",
+          "properties": {
+            "always_enabled": false,
+            "display_exit_code": true
+          },
+          "style": "diamond",
+          "template": "<transparent>\ue0b0</> {{ if gt .Code 0 }}\uf00d{{ else }}<#282a36>\uf42e</>{{ end }} ",
+          "trailing_diamond": "\ue0b0",
+          "type": "exit"
+        }
+      ]
+    },
+    {
+      // Segments displayed to the right of the prompt line
+      "alignment": "right",
+      "type": "prompt",
+      "segments": [
+        {
+          // Shows the duration of the last command, only if it took more than 500ms to execute
+          "background": "#8800dd",
+          "foreground": "#ffffff",
+          "leading_diamond": "\ue0b2",
+          "properties": {
+            "style": "austin",
+            "threshold": 500
+          },
+          "style": "diamond",
+          "template": "<#ffffff>\ufbab </>{{ .FormattedMs }} <transparent>\ue0b2</>",
+          "type": "executiontime"
+        },
+        // Programming language specific segments. Will be shown whenever the current directory has a language's specific files
+        {
+          // Dotnet segment
+          "background": "#5728E2",
+          "foreground": "#FFFFFF",
+          "leading_diamond": "\ue0b2",
+          "properties": {
+            "display_mode": "files",
+            "fetch_version": false
+          },
+          "style": "diamond",
+          "template": " \ue70c {{ if .Unsupported }}\uf071{{ else }}{{ .Full }}{{ end }}<transparent>\ue0b2</>",
+          "type": "dotnet"
+        },
+        {
+          // Python segment
+          "background": "#417FB0",
+          "foreground": "#FFDD56",
+          "leading_diamond": "\ue0b2",
+          "properties": {
+            "display_mode": "files",
+            "fetch_version": false
+          },
+          "style": "diamond",
+          "template": " \ue235 {{ if .Error }}{{ .Error }}{{ else }}{{ if .Venv }}{{ .Venv }} {{ end }}{{ .Full }}{{ end }}<transparent>\ue0b2</>",
+          "type": "python"
+        },
+        {
+          // Dart segment
+          "background": "#2BB7F6",
+          "foreground": "#03589C",
+          "leading_diamond": "\ue0b2",
+          "properties": {
+            "display_mode": "files",
+            "fetch_version": false
+          },
+          "style": "diamond",
+          "template": " \ue798 {{ if .Error }}{{ .Error }}{{ else }}{{ .Full }}{{ end }}<transparent>\ue0b2</>",
+          "type": "dart"
+        },
+        {
+          // Node segment
+          "background": "#6CA35E",
+          "foreground": "#ffffff",
+          "leading_diamond": "\ue0b2",
+          "properties": {
+            "display_mode": "files",
+            "fetch_version": false
+          },
+          "style": "diamond",
+          "template": " \ue718 {{ if .PackageManagerIcon }}{{ .PackageManagerIcon }} {{ end }}{{ .Full }}<transparent>\ue0b2</>",
+          "type": "node"
+        },
+        {
+          // Rust segment
+          "foreground": "#193549",
+          "background": "#d6611a",
+          "leading_diamond": "\ue0b2",
+          "properties": {
+            "display_mode": "files",
+            "fetch_version": false
+          },
+          "style": "diamond",
+          "template": " \uE7a8 {{ .Full }}",
+          "type": "rust"
+        },
+        // End of programming language specific segments
+        {
+          // Shows weather information from OpenWeatherMap
+          "background": "#8be9fd",
+          "foreground": "#000000",
+          "leading_diamond": "\ue0b2",
+          "properties": {
+            "apikey": "", // You need to create an account and generate a OpenWeather API key (https://home.openweathermap.org/api_keys)
+            "cache": 10,
+            "http_timeout": 1000,
+            "location": "São Paulo,BR",
+            "units": "metric"
+          },
+          "style": "diamond",
+          "template": " {{.Weather}} ({{.Temperature}}{{.UnitIcon}}) <transparent>\ue0b2</>",
+          "type": "owm"
+        },
+        {
+          // Shows current time
+          "background": "#50fa7b",
+          "foreground": "#000000",
+          "leading_diamond": "\ue0b2",
+          "properties": {
+            "time_format": "15:04:05"
+          },
+          "style": "diamond",
+          "template": " {{ .CurrentDate | date .Format }} <#000000>\uf017</> <transparent>\ue0b2</>",
+          "type": "time"
+        },
+        {
+          // Shows battery status. Won't work on all operating systems
+          "background": "#ffeb3b",
+          "background_templates": [
+            "{{if eq \"Charging\" .State.String}}#40c4ff{{end}}",
+            "{{if eq \"Discharging\" .State.String}}#ff5722{{end}}",
+            "{{if eq \"Full\" .State.String}}#4caf50{{end}}"
+          ],
+          "foreground": "#FFFFFF",
+          "leading_diamond": "\ue0b2",
+          "properties": {
+            "charged_icon": "\ue22f ",
+            "charging_icon": "\ue234 ",
+            "discharging_icon": "\ue231 "
+          },
+          "style": "diamond",
+          "template": " {{ if not .Error }}{{.Icon}}{{.Percentage}}{{ end }}\uf295  ",
+          "type": "battery"
+        }
+      ]
+    },
+    {
+      // Segment displayed at a new line, so the prompt line is displayed under the other segments
+      "alignment": "left",
+      "newline": true,
+      "type": "prompt",
+      "segments": [
+        {
+          // Adds an icon before the prompt. Will change colors based on last command success or failure
+          "foreground": "#50fa7b",
+          "foreground_templates": [
+            "{{ if gt .Code 0 }}#FF5252{{ end }}"
+          ],
+          "properties": {
+            "always_enabled": true
+          },
+          "style": "plain",
+          "template": "\uf101 ",
+          "type": "exit"
+        }
+      ]
+    }
+  ],
+  "version": 2
+}
