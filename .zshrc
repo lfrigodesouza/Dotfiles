@@ -52,6 +52,3 @@ if proton status | grep "No active"; then
 	protonvpn-cli connect -r > /dev/null
 	echo "ProtonVPN Connected"
 fi
-
-# Show neofetch output
-neofetch

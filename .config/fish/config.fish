@@ -35,15 +35,9 @@ alias rm='rm -i'
 alias cp='cp -i'
 alias grep='grep --color=auto'
 
-# Vim
-alias vim="nvim"
-
 # Configuration manager repository
 alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 
 ### STARTUP ###
 # Disable greeting
 set fish_greeting
-
-# Show neofetch output
-neofetch
