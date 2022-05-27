@@ -13,6 +13,11 @@
 alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 
 ### STARTUP ###
+# Checks if fish is installed, and if it is, execute it
+if command -v fish &> /dev/null; then
+    exec fish
+fi
+
 # Checks if zsh is installed, and if it is, execute it
 if command -v zsh &> /dev/null; then
     exec zsh
