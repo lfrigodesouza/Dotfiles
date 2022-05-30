@@ -12,6 +12,10 @@
 # oh-my-posh
 oh-my-posh init fish --config ~/.config/oh-my-posh/lsz.omp.json | source
 
+### FISH ###
+# Disable greeting
+set fish_greeting
+
 ### ALIASES ###
 # ProtonVPN
 alias proton="protonvpn-cli"
@@ -27,17 +31,24 @@ alias protonnsoff="protonvpn-cli ns --off"
 alias ls="exa --icons"
 alias la="exa -a --icons"
 alias ll="exa -l --icons --header"
-alias ..='cd ..'
+alias ..="cd .."
+alias cls="clear"
 
 # Flags
-alias mv='mv -i'
-alias rm='rm -i'
-alias cp='cp -i'
-alias grep='grep --color=auto'
+alias mv="mv -i"
+alias rm="rm -i"
+alias cp="cp -i"
+alias grep="grep --color=auto"
 
 # Configuration manager repository
-alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
+alias config="/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME"
 
 ### STARTUP ###
-# Disable greeting
-set fish_greeting
+# Execute only on interactive shells
+if status --is-interactive
+    # Start the ssp-agent service
+    eval (ssh-agent -c) > /dev/null
+    # Print neofetch
+    neofetch
+end
+
