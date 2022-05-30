@@ -24,6 +24,7 @@ Plug 'majutsushi/tagbar'
 Plug 'easymotion/vim-easymotion'
 Plug 'sheerun/vim-polyglot'
 Plug 'ryanoasis/vim-devicons'
+Plug 'ap/vim-css-color'
 call plug#end()
 
 """ SETTINGS

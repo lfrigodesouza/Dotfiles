@@ -8,7 +8,9 @@
 # 
 # Configuration file for QTile Window Manager
 
-from libqtile import bar, layout, widget
+import os
+import subprocess
+from libqtile import bar, layout, widget, hook
 from libqtile.config import Click, Drag, Group, Key, Match, Screen
 from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
@@ -24,7 +26,7 @@ keys = [
     Key([mod], "l", lazy.layout.right(), desc="Move focus to right"),
     Key([mod], "j", lazy.layout.down(), desc="Move focus down"),
     Key([mod], "k", lazy.layout.up(), desc="Move focus up"),
-    Key([mod], "space", lazy.layout.next(), desc="Move window focus to other window"),
+    #Key([mod], "space", lazy.layout.next(), desc="Move window focus to other window"),
     # Move windows between left/right columns or move up/down in current stack.
     # Moving out of range in Columns layout will create new column.
     Key([mod, "shift"], "h", lazy.layout.shuffle_left(), desc="Move window to the left"),
@@ -86,16 +88,22 @@ for i in groups:
 
 layouts = [
     #layout.Columns(border_focus_stack=["#d75f5f", "#8f3d3d"], border_width=4),
-    layout.MonadTall(),
     layout.Max(),
-    # Try more layouts by unleashing below layouts.
     #layout.Stack(num_stacks=2),
+    layout.MonadTall(
+        margin=4
+    ),
+    # Try more layouts by unleashing below layouts.
     #layout.Bsp(),
     #layout.Matrix(),
-    layout.MonadWide(),
+    layout.MonadWide(
+        margin=4
+    ),
     #layout.RatioTile(),
     #layout.Tile(),
-    layout.TreeTab(),
+    #layout.TreeTab(
+    #    margin=4
+    #),
     #layout.VerticalTile(),
     #layout.Zoomy(),
 ]
@@ -107,14 +115,55 @@ widget_defaults = dict(
 )
 extension_defaults = widget_defaults.copy()
 
-# Default widgets across screens
+### TOPBAR ###
+
+# Default colors
+colors = [['#282a36','#282a36'], #0 Background
+          ['#44475a','#44475a'], #1 Light background
+          ['#f8f8f2','#f8f8f2'], #2 Foreground
+          ['#6272a4','#6272a4'], #3 Darker foreground
+          ['#8be9fd','#8be9fd'], #4 Cyan
+          ['#50fa7b','#50fa7b'], #5 Green
+          ['#ffb86c','#ffb86c'], #6 Orange
+          ['#ff79c6','#ff79c6'], #7 Pink
+          ['#bd93f9','#bd93f9'], #8 Purple
+          ['#ff5555','#ff5555'], #9 Red
+          ['#f1fa8c','#f1fa8c']] #10 Yellow
+
+#Default font size
+fontsize=13
+
+# Default widgets across screns
 def currentScreenWidget():
     return widget.CurrentScreen(
-        width=15,
-        active_text="ϴ",
-        inactive_text="",
+        width=25,
+        fontsize=20,
+        active_text="",
+        active_color=colors[4],
+        inactive_text="",
+        inactive_color=colors[1],
+        background=colors[3]
     )
 
+def groupBoxWidget():
+    return widget.GroupBox(
+        background=colors[3],
+        hide_unused=True,
+        borderwidth=2,
+        this_current_screen_border=colors[5],
+        this_screen_border=colors[5],
+        other_current_screen_border=colors[1],
+        other_screen_border=colors[1],
+        highlight_color=colors[5],
+    )
+
+def separator():
+    return widget.Sep(
+        background=colors[3],
+        foreground=colors[8]
+    )
+
+# Topbar screen configurations
 screens = [
     Screen(
         wallpaper="~/Pictures/Wallpapers/M6tL2a8.png",
@@ -123,34 +172,9 @@ screens = [
                 currentScreenWidget(),
                 widget.WindowCount(),
                 widget.CurrentLayout(),
-                widget.GroupBox(),
-                widget.Prompt(),
-                widget.WindowName(),
-                widget.Chord(
-                    chords_colors={
-                        "launch": ("#ff0000", "#ffffff"),
-                    },
-                    name_transform=lambda name: name.upper(),
-                ),
-                # widget.TextBox("default config", name="default"),
-                # widget.TextBox("Press &lt;M-r&gt; to spawn", foreground="#d75f5f"),
-                widget.OpenWeather(location="sao paulo", api_key="", format="{location_city}: {main_temp} °{units_temperature} {weather_details}"),
-                widget.Sep(),
-                widget.Net(interface="wlp2s0"),
-                widget.Sep(),
-                widget.Memory(),
-                widget.Sep(),
-                widget.CPU(),
-                widget.Sep(),
-                widget.CheckUpdates(no_update_string="No Upgrades"),
-                widget.Sep(),
-                widget.Systray(),
-                widget.Clock(format="%Y-%m-%d %a %H:%M"),
-                widget.QuickExit(),
+                groupBoxWidget(),
             ],
             24,
-            # border_width=[2, 0, 2, 0],  # Draw top and bottom borders
-            # border_color=["ff00ff", "000000", "ff00ff", "000000"]  # Borders are magenta
         ),
     ),
     Screen(
@@ -158,13 +182,122 @@ screens = [
         top=bar.Bar(
             [
                 currentScreenWidget(),
-                widget.WindowCount(),
-                widget.CurrentLayout(),
-                widget.GroupBox(),
+                widget.CurrentLayoutIcon(
+                    scale=0.7,
+                    background=colors[3]
+                ),
+                groupBoxWidget(),
+                widget.TextBox(
+                    text="",
+                    fontsize=fontsize + 8,
+                    padding=0,
+                    foreground=colors[3]
+                ),
+                widget.Prompt(
+                    fontsize=fontsize,
+                    prompt=" ",
+                    foreground=colors[5],
+                    ignore_dups_history=True,
+                    bell_style="visual",
+                    visual_bell_color=colors[9],
+                ),
+                widget.WindowName(
+                    fontsize=fontsize
+                ),
+                widget.TextBox(
+                    text="",
+                    fontsize=fontsize + 8,
+                    padding=0,
+                    foreground=colors[3]
+                ),
+                widget.OpenWeather(
+                    background=colors[3],
+                    fontsize=fontsize,
+                    location="Campo Limpo, BR",
+                    api_key="i525a73a15e335109051cf4f18e48352f",
+                    format="{icon} {main_temp} °{units_temperature}",
+                    weather_symbols = {
+                        "Unknown": " ",
+                        "01d": " ",
+                        "01n": " ",
+                        "02d": "  ",
+                        "02n": "  ",
+                        "03d": " ",
+                        "03n": " ",
+                        "04d": " ",
+                        "04n": " ",
+                        "09d": "  ",
+                        "09n": " ",
+                        "10d": "  ",
+                        "10n": "  ",
+                        "11d": "  ",
+                        "11n": "  ",
+                        "13d": "流",
+                        "13n": "流",
+                        "50d": "  ",
+                        "50n": "  ",
+                    }
+                ),
+                separator(),
+                widget.Net(
+                    background=colors[3],
+                    fontsize=fontsize,
+                    interface="wlan0",
+                    format="直 {down} ↓↑ {up}",
+                ),
+                separator(),
+                widget.Memory(
+                    background=colors[3],
+                    fontsize=fontsize,
+                    format=" {MemUsed: .0f}{mm}/{MemTotal: .0f}{mm}"
+                ),
+                separator(),
+                widget.CPU(
+                    background=colors[3],
+                    fontsize=fontsize,
+                    format="  {freq_current}GHz {load_percent}%"
+                ),
+                separator(),
+                widget.CheckUpdates(
+                    background=colors[3],
+                    fontsize=fontsize,
+                    no_update_string=" N/A",
+                    have_update_string=" Updates Available",
+                    colour_no_updates=colors[1],
+                    colour_have_updates=colors[5]
+
+                ),
+                separator(),
+                widget.Systray(),
+                widget.Battery(
+                    background=colors[3],
+                    fontsize=fontsize,
+                    format= "{char} {percent:2.0%}",
+                    discharge_char="",
+                    charge_char="",
+                    empty_char="",
+                    full_char="",
+                    unknown_char=""
+                ),
+                separator(),
+                widget.Clock(
+                    background=colors[3],
+                    fontsize=fontsize,
+                    format=" %Y-%m-%d %a %H:%M"
+                ),
+                separator(),
+                widget.QuickExit(
+                    background=colors[3],
+                    default_text="襤",
+                    fontsize=20,
+                    padding=5,
+                    countdown_format='{}'
+                ),
             ],
-            24,
-            # border_width=[2, 0, 2, 0],  # Draw top and bottom borders
-            # border_color=["ff00ff", "000000", "ff00ff", "000000"]  # Borders are magenta
+            25,
+            background=colors[0],
+            margin=1,
+            opacity=0.9
         ),
     ),
 ]
@@ -203,6 +336,13 @@ auto_minimize = True
 
 # When using the Wayland backend, this can be used to configure input devices.
 wl_input_rules = None
+
+### HOOKS ###
+@hook.subscribe.startup
+def autostart():
+    home = os.path.expanduser('~/.bin/qtile_autostart.sh')
+    subprocess.Popen([home])
+
 
 # XXX: Gasp! We're lying here. In fact, nobody really uses or cares about this
 # string besides java UI toolkits; you can see several discussions on the
