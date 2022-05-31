@@ -166,19 +166,6 @@ def separator():
 # Topbar screen configurations
 screens = [
     Screen(
-        wallpaper="~/Pictures/Wallpapers/M6tL2a8.png",
-        top=bar.Bar(
-            [
-                currentScreenWidget(),
-                widget.WindowCount(),
-                widget.CurrentLayout(),
-                groupBoxWidget(),
-            ],
-            24,
-        ),
-    ),
-    Screen(
-        wallpaper="~/Pictures/Wallpapers/M6tL2a8.png",
         top=bar.Bar(
             [
                 currentScreenWidget(),
@@ -298,6 +285,17 @@ screens = [
             background=colors[0],
             margin=1,
             opacity=0.9
+        ),
+    ),
+    Screen(
+        top=bar.Bar(
+            [
+                currentScreenWidget(),
+                widget.WindowCount(),
+                widget.CurrentLayout(),
+                groupBoxWidget(),
+            ],
+            24,
         ),
     ),
 ]
