@@ -30,7 +30,7 @@ alias protonnsoff="protonvpn-cli ns --off"
 # Custom
 alias ls="exa --icons"
 alias la="exa -a --icons"
-alias ll="exa -l --icons --header"
+alias ll="exa -al --icons --header"
 alias ..="cd .."
 alias cls="clear"
 
