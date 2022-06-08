@@ -13,12 +13,15 @@
 alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 
 ### STARTUP ###
+# Do not load configs if not on interactive shell
+[[ $- != *i* ]] && return
+
 # Checks if fish is installed, and if it is, execute it
 if command -v fish &> /dev/null; then
-    exec fish
-fi
-
-# Checks if zsh is installed, and if it is, execute it
-if command -v zsh &> /dev/null; then
-    exec zsh
+    # Do not execute it if it's being called from fish itself, to allow execution of bash
+    # without removing the .bashrc file
+    if [[ $(ps --no-header --pid=$PPID --format=comm) != "fish" && -z ${BASH_EXECUTION_STRING} ]]
+    then
+        exec fish
+    fi
 fi
