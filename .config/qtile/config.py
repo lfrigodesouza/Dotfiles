@@ -56,7 +56,8 @@ keys = [
     Key([mod], "w", lazy.window.kill(), desc="Kill focused window"),
     Key([mod, "control"], "r", lazy.reload_config(), desc="Reload the config"),
     Key([mod, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
-    Key([mod], "space", lazy.spawncmd(), desc="Spawn a command using a prompt widget"),
+    #Key([mod], "space", lazy.spawncmd(), desc="Spawn a command using a prompt widget"),
+    Key([mod], "space", lazy.spawn("rofi -show combi -show-icons"), desc="Spawn a command using a prompt widget"),
     Key([mod], "q", lazy.next_screen(), desc="Change focus to the next screen"),
 ]
 
@@ -88,16 +89,18 @@ for i in groups:
 
 layouts = [
     #layout.Columns(border_focus_stack=["#d75f5f", "#8f3d3d"], border_width=4),
+    layout.MonadTall(
+        margin=3,
+        border_focus="#50fa7b"
+    ),
     layout.Max(),
     #layout.Stack(num_stacks=2),
-    layout.MonadTall(
-        margin=4
-    ),
     # Try more layouts by unleashing below layouts.
     #layout.Bsp(),
     #layout.Matrix(),
     layout.MonadWide(
-        margin=4
+        margin=3,
+        border_focus="#50fa7b"
     ),
     #layout.RatioTile(),
     #layout.Tile(),
@@ -159,7 +162,6 @@ def groupBoxWidget():
 
 def separator():
     return widget.Sep(
-        background=colors[3],
         foreground=colors[8]
     )
 
@@ -191,73 +193,50 @@ screens = [
                 widget.WindowName(
                     fontsize=fontsize
                 ),
-                widget.TextBox(
-                    text="",
-                    fontsize=fontsize + 8,
-                    padding=0,
-                    foreground=colors[3]
-                ),
-                widget.OpenWeather(
-                    background=colors[3],
+                widget.Bluetooth(
+                    hci="/dev_48_70_1E_49_28_1D",
+                    foreground=colors[8],
                     fontsize=fontsize,
-                    location="Campo Limpo, BR",
-                    api_key="i525a73a15e335109051cf4f18e48352f",
-                    format="{icon} {main_temp} °{units_temperature}",
-                    weather_symbols = {
-                        "Unknown": " ",
-                        "01d": " ",
-                        "01n": " ",
-                        "02d": "  ",
-                        "02n": "  ",
-                        "03d": " ",
-                        "03n": " ",
-                        "04d": " ",
-                        "04n": " ",
-                        "09d": "  ",
-                        "09n": " ",
-                        "10d": "  ",
-                        "10n": "  ",
-                        "11d": "  ",
-                        "11n": "  ",
-                        "13d": "流",
-                        "13n": "流",
-                        "50d": "  ",
-                        "50n": "  ",
-                    }
                 ),
                 separator(),
-                widget.Net(
-                    background=colors[3],
+                widget.KeyboardLayout(
+                    configured_keyboards=['br','us(intl)'],
+                    foreground=colors[5],
                     fontsize=fontsize,
-                    interface="wlan0",
-                    format="直 {down} ↓↑ {up}",
+                ),
+                separator(),
+                widget.Wlan(
+                    foreground=colors[8],
+                    fontsize=fontsize,
+                    format="直 {essid}",
                 ),
                 separator(),
                 widget.Memory(
-                    background=colors[3],
+                    foreground=colors[8],
                     fontsize=fontsize,
                     format=" {MemUsed: .0f}{mm}/{MemTotal: .0f}{mm}"
                 ),
                 separator(),
                 widget.CPU(
-                    background=colors[3],
+                    foreground=colors[8],
                     fontsize=fontsize,
                     format="  {freq_current}GHz {load_percent}%"
                 ),
                 separator(),
                 widget.CheckUpdates(
-                    background=colors[3],
+                    foreground=colors[8],
                     fontsize=fontsize,
-                    no_update_string=" N/A",
+                    no_update_string=" Updated",
                     have_update_string=" Updates Available",
-                    colour_no_updates=colors[1],
+                    colour_no_updates=colors[8],
                     colour_have_updates=colors[5]
-
                 ),
                 separator(),
-                widget.Systray(),
+                widget.Systray(
+                    foreground=colors[8]
+                ),
                 widget.Battery(
-                    background=colors[3],
+                    foreground=colors[8],
                     fontsize=fontsize,
                     format= "{char} {percent:2.0%}",
                     discharge_char="",
@@ -268,13 +247,13 @@ screens = [
                 ),
                 separator(),
                 widget.Clock(
-                    background=colors[3],
+                    foreground=colors[8],
                     fontsize=fontsize,
                     format=" %Y-%m-%d %a %H:%M"
                 ),
                 separator(),
                 widget.QuickExit(
-                    background=colors[3],
+                    foreground=colors[5],
                     default_text="襤",
                     fontsize=20,
                     padding=5,

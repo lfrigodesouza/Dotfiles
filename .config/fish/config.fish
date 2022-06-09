@@ -40,6 +40,17 @@ alias rm="rm -i"
 alias cp="cp -i"
 alias grep="grep --color=auto"
 
+# git
+alias g="git"
+alias gc="git checkout"
+alias gf="git fetch -p"
+alias gm="git commit"
+alias gr="git restore --staged"
+alias gs="git status"
+alias gadd="git add ."
+alias gpull="git pull"
+alias gpush="git push"
+
 # Configuration manager repository
 alias config="/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME"
 

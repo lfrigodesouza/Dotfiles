@@ -11,9 +11,9 @@
 */
 
 configuration {
-    modi: "window,drun,ssh,combi";
-    font: "hack 10";
-    combi-modi: "window,drun,ssh";
+    modi: "window,drun,ssh,combi,run";
+    font: "FiraCode Nerd Font 13";
+    combi-modi: "window,drun,file-browser";
 }
 
 @theme "~/.config/rofi/themes/dracula.rasi"
