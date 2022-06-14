@@ -57,8 +57,9 @@ keys = [
     Key([mod, "control"], "r", lazy.reload_config(), desc="Reload the config"),
     Key([mod, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
     #Key([mod], "space", lazy.spawncmd(), desc="Spawn a command using a prompt widget"),
-    Key([mod], "space", lazy.spawn("rofi -show combi -show-icons"), desc="Spawn a command using a prompt widget"),
+    Key([mod], "space", lazy.spawn("rofi -show combi -show-icons -monitor -1"), desc="Spawn a command using a prompt widget"),
     Key([mod], "q", lazy.next_screen(), desc="Change focus to the next screen"),
+    Key([mod], "e", lazy.spawn("pcmanfm"), desc="Run file manager"),
 ]
 
 groups = [Group(i) for i in "123456789"]
@@ -77,7 +78,7 @@ for i in groups:
             Key(
                 [mod, "shift"],
                 i.name,
-                lazy.window.togroup(i.name, switch_group=True),
+                lazy.window.togroup(i.name, switch_group=False),
                 desc="Switch to & move focused window to group {}".format(i.name),
             ),
             # Or, use below if you prefer not to switch to that group.
@@ -111,170 +112,133 @@ layouts = [
     #layout.Zoomy(),
 ]
 
+# Default colors
+dracula = {
+    "background": ['#282a36','#282a36'],
+    "background_light": ['#44475a','#44475a'],
+    "foreground": ['#f8f8f2','#f8f8f2'],
+    "foreground_darker": ['#6272a4','#6272a4'],
+    "cyan": ['#8be9fd','#8be9fd'],
+    "green": ['#50fa7b','#50fa7b'],
+    "orange": ['#ffb86c','#ffb86c'],
+    "pink": ['#ff79c6','#ff79c6'],
+    "purple": ['#bd93f9','#bd93f9'],
+    "red": ['#ff5555','#ff5555'],
+    "yellow": ['#f1fa8c','#f1fa8c'],
+    "black": ['#000000','#000000'],
+    }
+
 widget_defaults = dict(
-    font="sans",
-    fontsize=12,
-    padding=3,
+    font="Fira Code Nerd Font",
+    fontsize=13,
+    padding=2,
+    background=dracula["background"],
+    foreground=dracula["purple"],
 )
 extension_defaults = widget_defaults.copy()
 
 ### TOPBAR ###
-
-# Default colors
-colors = [['#282a36','#282a36'], #0 Background
-          ['#44475a','#44475a'], #1 Light background
-          ['#f8f8f2','#f8f8f2'], #2 Foreground
-          ['#6272a4','#6272a4'], #3 Darker foreground
-          ['#8be9fd','#8be9fd'], #4 Cyan
-          ['#50fa7b','#50fa7b'], #5 Green
-          ['#ffb86c','#ffb86c'], #6 Orange
-          ['#ff79c6','#ff79c6'], #7 Pink
-          ['#bd93f9','#bd93f9'], #8 Purple
-          ['#ff5555','#ff5555'], #9 Red
-          ['#f1fa8c','#f1fa8c']] #10 Yellow
-
 #Default font size
 fontsize=13
 
-# Default widgets across screns
-def currentScreenWidget():
-    return widget.CurrentScreen(
-        width=25,
-        fontsize=20,
-        active_text="",
-        active_color=colors[4],
-        inactive_text="",
-        inactive_color=colors[1],
-        background=colors[3]
-    )
+def get_widgets(primary=False):
+    widgets=[
+        widget.CurrentScreen(
+            width=25,
+            fontsize=20,
+            active_text="",
+            active_color=dracula["cyan"],
+            inactive_text="",
+            inactive_color=dracula["background_light"],
+            background=dracula["foreground_darker"],
+        ),
+        widget.CurrentLayoutIcon(
+            scale=0.7,
+            background=dracula["foreground_darker"],
+        ),
+        widget.GroupBox(
+            background=dracula["foreground_darker"],
+            hide_unused=True,
+            borderwidth=2,
+            this_current_screen_border=dracula["green"],
+            this_screen_border=dracula["green"],
+            other_current_screen_border=dracula["background_light"],
+            other_screen_border=dracula["background_light"],
+            highlight_color=dracula["green"],
+        ),
+        widget.TextBox(
+            text="",
+            fontsize=20,
+            padding=0,
+            foreground=dracula["foreground_darker"]
+        ),
+        widget.WindowName(
+        ),
+    ]
+    if primary:
+        widgets.extend([
+            widget.KeyboardLayout(
+                configured_keyboards=['br','us(intl)'],
+                foreground=dracula["green"],
+            ),
+            widget.Sep(),
+            widget.Wlan(
+                format="直 {essid}",
+            ),
+            widget.Sep(),
+            widget.Memory(
+                format=" {MemUsed: .0f}{mm}/{MemTotal: .0f}{mm}"
+            ),
+            widget.Sep(),
+            widget.CPU(
+                format="  {freq_current}GHz {load_percent}%"
+            ),
+            widget.Sep(),
+            widget.CheckUpdates(
+                no_update_string=" Updated",
+                have_update_string=" Updates Available",
+                colour_no_updates=dracula["purple"],
+                colour_have_updates=dracula["green"],
+            ),
+            widget.Sep(),
+            widget.Systray(),
+            widget.Sep(),
+            widget.PulseVolume(
+                fmt="{}"
+            ),
+            widget.Sep(),
+            widget.Battery(
+                format= "{char} {percent:2.0%}",
+                discharge_char="",
+                charge_char="",
+                empty_char="",
+                full_char="",
+                unknown_char=""
+            ),
+            widget.Sep(),
+            widget.Clock(
+                format=" %Y-%m-%d %a %H:%M"
+            ),
+        ])
 
-def groupBoxWidget():
-    return widget.GroupBox(
-        background=colors[3],
-        hide_unused=True,
-        borderwidth=2,
-        this_current_screen_border=colors[5],
-        this_screen_border=colors[5],
-        other_current_screen_border=colors[1],
-        other_screen_border=colors[1],
-        highlight_color=colors[5],
-    )
-
-def separator():
-    return widget.Sep(
-        foreground=colors[8]
-    )
+    return widgets
 
 # Topbar screen configurations
 screens = [
     Screen(
         top=bar.Bar(
-            [
-                currentScreenWidget(),
-                widget.CurrentLayoutIcon(
-                    scale=0.7,
-                    background=colors[3]
-                ),
-                groupBoxWidget(),
-                widget.TextBox(
-                    text="",
-                    fontsize=fontsize + 8,
-                    padding=0,
-                    foreground=colors[3]
-                ),
-                widget.Prompt(
-                    fontsize=fontsize,
-                    prompt=" ",
-                    foreground=colors[5],
-                    ignore_dups_history=True,
-                    bell_style="visual",
-                    visual_bell_color=colors[9],
-                ),
-                widget.WindowName(
-                    fontsize=fontsize
-                ),
-                widget.Bluetooth(
-                    hci="/dev_48_70_1E_49_28_1D",
-                    foreground=colors[8],
-                    fontsize=fontsize,
-                ),
-                separator(),
-                widget.KeyboardLayout(
-                    configured_keyboards=['br','us(intl)'],
-                    foreground=colors[5],
-                    fontsize=fontsize,
-                ),
-                separator(),
-                widget.Wlan(
-                    foreground=colors[8],
-                    fontsize=fontsize,
-                    format="直 {essid}",
-                ),
-                separator(),
-                widget.Memory(
-                    foreground=colors[8],
-                    fontsize=fontsize,
-                    format=" {MemUsed: .0f}{mm}/{MemTotal: .0f}{mm}"
-                ),
-                separator(),
-                widget.CPU(
-                    foreground=colors[8],
-                    fontsize=fontsize,
-                    format="  {freq_current}GHz {load_percent}%"
-                ),
-                separator(),
-                widget.CheckUpdates(
-                    foreground=colors[8],
-                    fontsize=fontsize,
-                    no_update_string=" Updated",
-                    have_update_string=" Updates Available",
-                    colour_no_updates=colors[8],
-                    colour_have_updates=colors[5]
-                ),
-                separator(),
-                widget.Systray(
-                    foreground=colors[8]
-                ),
-                widget.Battery(
-                    foreground=colors[8],
-                    fontsize=fontsize,
-                    format= "{char} {percent:2.0%}",
-                    discharge_char="",
-                    charge_char="",
-                    empty_char="",
-                    full_char="",
-                    unknown_char=""
-                ),
-                separator(),
-                widget.Clock(
-                    foreground=colors[8],
-                    fontsize=fontsize,
-                    format=" %Y-%m-%d %a %H:%M"
-                ),
-                separator(),
-                widget.QuickExit(
-                    foreground=colors[5],
-                    default_text="襤",
-                    fontsize=20,
-                    padding=5,
-                    countdown_format='{}'
-                ),
-            ],
+            get_widgets(primary=True),
             25,
-            background=colors[0],
             margin=1,
             opacity=0.9
         ),
     ),
     Screen(
         top=bar.Bar(
-            [
-                currentScreenWidget(),
-                widget.WindowCount(),
-                widget.CurrentLayout(),
-                groupBoxWidget(),
-            ],
-            24,
+            get_widgets(primary=False),
+            25,
+            margin=1,
+            opacity=0.9
         ),
     ),
 ]
@@ -299,6 +263,7 @@ floating_layout = layout.Floating(
         Match(wm_class="makebranch"),  # gitk
         Match(wm_class="maketag"),  # gitk
         Match(wm_class="ssh-askpass"),  # ssh-askpass
+        Match(wm_class="blueberry.py"),
         Match(title="branchdialog"),  # gitk
         Match(title="pinentry"),  # GPG key password entry
     ]
@@ -315,7 +280,7 @@ auto_minimize = True
 wl_input_rules = None
 
 ### HOOKS ###
-@hook.subscribe.startup
+@hook.subscribe.startup_once
 def autostart():
     home = os.path.expanduser('~/.bin/qtile_autostart.sh')
     subprocess.Popen([home])

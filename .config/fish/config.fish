@@ -33,6 +33,7 @@ alias la="exa -a --icons"
 alias ll="exa -al --icons --header"
 alias ..="cd .."
 alias cls="clear"
+alias vim="nvim"
 
 # Flags
 alias mv="mv -i"
