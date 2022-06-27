@@ -1,0 +1,23 @@
+local Plug = vim.fn['plug#']
+vim.call('plug#begin')
+Plug 'ap/vim-css-color'
+Plug 'dense-analysis/ale'
+Plug 'easymotion/vim-easymotion'
+Plug 'kyazdani42/nvim-tree.lua'
+Plug 'kyazdani42/nvim-web-devicons'
+Plug 'majutsushi/tagbar'
+Plug 'mhinz/vim-startify'
+Plug 'neoclide/coc.nvim'
+Plug 'neovim/nvim-lspconfig'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim'
+Plug 'nvim-treesitter/nvim-treesitter'
+Plug 'romgrk/barbar.nvim'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-surround'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'Xuyuanp/nerdtree-git-plugin'
+Plug 'yggdroot/indentline'
+vim.call('plug#end')
