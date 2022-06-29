@@ -23,8 +23,8 @@ map("n", "<C-Right>", ":vertical resize +2<CR>", opts)
 map('n','<leader>;', 'm`A;<Esc>``', opts)
 
 -- Adds a line above or under current line
-map('n', 'oo', 'm`o<Esc>``', opts)
-map('n', 'OO', 'm`O<Esc>``', opts)
+map('n', '<A-o>', 'm`o<Esc>``', opts)
+map('n', '<A-O>', 'm`O<Esc>``', opts)
 
 -- Fast q macro executor
 map('n', 'Q', '@q', opts)
