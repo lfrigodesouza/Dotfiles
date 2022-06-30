@@ -1,6 +1,6 @@
 local configs = require("nvim-treesitter.configs")
 
-configs.setup {
+configs.setup({
     ensure_installed = {
         "c_sharp",
         "lua",
@@ -14,7 +14,7 @@ configs.setup {
         "json",
         "yaml",
         "vim",
-        "css"
+        "css",
     },
     sync_install = false,
     ignore_install = { "" }, -- List of parsers to ignore installing
@@ -28,7 +28,7 @@ configs.setup {
     },
     indent = {
         enable = true,
-        disable = { "" }
+        disable = { "" },
     },
     rainbow = {
         enable = true,
@@ -41,5 +41,5 @@ configs.setup {
     context_commentstring = {
         enable = true,
         enable_autocmd = false,
-    }
-}
+    },
+})
