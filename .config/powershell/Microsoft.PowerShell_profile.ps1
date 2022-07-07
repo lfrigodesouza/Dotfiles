@@ -18,24 +18,27 @@ Set-PSReadLineOption -PredictionSource History
 Set-PSReadLineOption -HistorySearchCursorMovesToEnd
 Set-PSReadLineKeyHandler -Key UpArrow -Function HistorySearchBackward
 Set-PSReadLineKeyHandler -Key DownArrow -Function HistorySearchForward
-Set-PSReadlineKeyHandler -Key Tab -Function Complete
+Set-PSReadlineKeyHandler -Key Tab -Function MenuComplete
 
 # oh-my-posh
 oh-my-posh init pwsh --config ~/.poshthemes/lsz.omp.json | Invoke-Expression
 
-### CUSTOM FUNCTIONS ###
-# Docker
-function docker(){
-	# This function makes it possible to interact with the Docker CLI installed on WSL
-	# directly from PowerShell without the need to append 'wls' to every command
-	wsl docker $args
-}
-function docker-start(){
-	# Checks whether docker is running or not, and starts it
-	wsl sudo service docker status || wsl sudo service docker start
+### Completers ###
+# winget
+Register-ArgumentCompleter -Native -CommandName winget -ScriptBlock {
+     param($wordToComplete, $commandAst, $cursorPosition)
+        [Console]::InputEncoding = [Console]::OutputEncoding = $OutputEncoding = [System.Text.Utf8Encoding]::new()
+        $Local:word = $wordToComplete.Replace('"', '""')
+        $Local:ast = $commandAst.ToString().Replace('"', '""')
+        winget complete --word="$Local:word" --commandline "$Local:ast" --position $cursorPosition | ForEach-Object {
+            [System.Management.Automation.CompletionResult]::new($_, $_, 'ParameterValue', $_)
+        }
 }
 
-### STARTUP ###
-# neofetch
-neofetch
-
+# dotnet
+Register-ArgumentCompleter -Native -CommandName dotnet -ScriptBlock {
+     param($commandName, $wordToComplete, $cursorPosition)
+         dotnet complete --position $cursorPosition "$wordToComplete" | ForEach-Object {
+            [System.Management.Automation.CompletionResult]::new($_, $_, 'ParameterValue', $_)
+         }
+ }
