@@ -1,0 +1,153 @@
+"    __    ___________   _   ______________
+"   / /   / ____/ ___/  / | / / ____/_  __/
+"  / /   / /_   \__ \  /  |/ / __/   / /
+" / /___/ __/  ___/ / / /|  / /___  / /
+"/_____/_/    /____(_)_/ |_/_____/ /_/
+" https://LFrigoDeSouza.NET
+" https://github.com/lfrigodesouza/Dotfiles
+" 
+" Configuration file for JetBrains IDEs
+
+""" PLUGINS
+set which-key
+set easymotion
+set surround
+set multiple-cursors
+set ReplaceWithRegister
+set NERDTree
+
+""" SETTINGS
+set scrolloff=5
+set hlsearch
+set ignorecase
+set incsearch
+set clipboard+=unnamed
+set clipboard+=ideaput
+set relativenumber number
+set timeoutlen=300
+set notimeout
+
+""" KEY MAPPINGS
+" Set space as the leader character
+noremap <SPACE> <Nop>
+let mapleader = "\\"
+
+" Shows hover window
+map gh <Action>(ShowErrorDescription)
+
+" Goes to Declaration
+map gd <Action>(GotoDeclaration)
+
+" Goes to Implementation
+map gi <Action>(GotoImplementation)
+
+" Goes to related components
+map gr <Action>(GotoRelated)
+
+" Finds usages of the object
+map gu <Action>(FindUsages)
+
+" Goes back and forward to previous location
+map gb <Action>(Back)
+map gf <Action>(Forward)
+
+" Navigates between solution errors
+map <leader>e <Action>(ReSharperGotoNextErrorInSolution)
+map <leader>E <Action>(ReSharperGotoPrevErrorInSolution)
+
+" Activates Ace Jump
+map <Space><Space> <Action>(AceAction)
+
+" Opens class search
+map <leader>t <Action>(GotoClass)
+
+" Rename current element
+map <leader>r <Action>(RenameElement)
+
+" Opens surround option for the selected text
+map <A-s> <Action>(SurroundWith)
+
+" Collapses all blocks to definition
+map <leader>cl <Action>(RiderCollapseToDefinitions)
+
+" Shows current file on File System tree
+map <leader>se <Action>(NERDTreeFind)
+
+" Opens the terminal window
+map <A-t> <Action>(ActivateTerminalToolWindow)
+map <A-T> <Action>(Terminal.OpenInTerminal)
+
+" Duplicates current or selected lines
+map <Space>d <Action>(EditorDuplicate)
+
+" Code refactoring actions
+map <Space>v <Action>(IntroduceVariable)
+map <Space>m <Action>(ExtractMethod)
+map <Space>o <Action>(Move)
+
+" Code selection
+map <leader>sd <Action>(ReSharperSelectContainingDeclaration)
+
+" Testing
+map <leader>tr <Action>(Rider.UnitTesting.RunContext)
+map <leader>td <Action>(RiderUnitTestDebugContextAction)
+map <leader>ta <Action>(Rider.UnitTesting.RunSolution)
+map <leader>tt <Action>(ActivateUnitTestsToolWindow)
+map <leader>tc <Action>(RiderUnitTestCoverSolutionAction)
+
+" Opens menu for code inspector
+map <leader>is <Action>(InspectThis)
+
+" Builds solution
+map <Space>b <Action>(BuildSolutionAction)
+
+" Toggles breakpoint
+map <leader>b <Action>(ToggleLineBreakpoint)
+
+" Code cleanup and reformat
+map <leader>cc <Action>(SilentCodeCleanup)
+map <leader>f <Action>(ReformatCode)
+
+" Opens current file on solution view
+map <leader>se <Action>(LocateInSolutionView)
+
+" Adds ";" to the end of the current line
+map <Space>; mmA;<Esc>`m
+
+" Removes search highlight
+map <Space>n :noh<CR>
+
+" Navigates between methods
+map ] <Action>(MethodDown)
+map [ <Action>(MethodUp)
+
+" Pins, unpins and closes tabs and editors
+map <leader>pt <Action>(PinActiveTab)
+map <leader>ct <Action>(CloseActiveTab)
+map <leader>ce <Action>(CloseEditor)
+map <leader>cp <Action>(CloseAllUnpinnedEditors)
+map <leader>ca <Action>(CloseAllEditors)
+
+" Splits the editor
+map <Space>ws <Action>(SplitHorizontally)
+map <Space>wv <Action>(SplitVertically)
+
+" Comments selection
+map <Space>/ <Action>(CommentByLineComment)
+
+" Quick macro executor on q register.
+map Q @q
+
+" Toggles distraction-free mode
+map <A-z> <Action>(ToggleDistractionFreeMode)
+
+" Easily opens and sources .ideavimrc file
+map zl :e ~\.ideavimrc<CR>
+map zr :source ~\.ideavimrc<CR>
+
+" Lists all available IDE actions
+map za :actionlist<CR>
+
+" Toggles 'Find Action Id' feature
+map zi <Action>(VimFindActionIdAction)
+
