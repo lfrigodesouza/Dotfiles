@@ -23,7 +23,7 @@ Set-PSReadlineKeyHandler -Key Tab -Function MenuComplete
 # oh-my-posh
 oh-my-posh init pwsh --config ~/.poshthemes/lsz.omp.json | Invoke-Expression
 
-### Completers ###
+### Completers
 # winget
 Register-ArgumentCompleter -Native -CommandName winget -ScriptBlock {
      param($wordToComplete, $commandAst, $cursorPosition)
@@ -42,3 +42,38 @@ Register-ArgumentCompleter -Native -CommandName dotnet -ScriptBlock {
             [System.Management.Automation.CompletionResult]::new($_, $_, 'ParameterValue', $_)
          }
  }
+
+### CUSTOM FUNCTIONS ###
+function ..(){
+        cd ..
+}
+
+function vim(){
+    neovide --wsl $args
+}
+
+function repos(){
+    cd $HOME\Repos\$args
+}
+
+# Git
+Set-Alias -Name g -Value git
+Function gs {git status}
+Function gpull {git pull}
+Function gdiff() {git diff}
+Function gdiffc() {git diff --cached}
+Function grestore() {git restore .}
+Function gcheckout() {git checkout $args}
+Function gfbranch() {git branch -r | grep $args}
+
+Function gfetch(){
+	git fetch -p && git pull
+	git branch -v | grep 'gone' | %{$_.Split(' ')[2];} | %{git branch -D $_}
+}
+
+Function gbranch(){
+	git branch $args && git branch $args && git push --set-upstream origin $args
+}
+
+### ALIAS ###
+Function ll {Get-ChildItem -Force}
