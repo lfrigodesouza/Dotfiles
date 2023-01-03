@@ -2,7 +2,7 @@ local cmd = vim.cmd
 local g = vim.g
 --Dracula PRO theme
 cmd("packadd! dracula_pro")
-g.dracula_colorterm = 0
+g.dracula_colorterm = 1
 cmd("colorscheme dracula_pro")
 
 -- Vim Airline
