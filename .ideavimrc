@@ -42,7 +42,7 @@ map gd <Action>(GotoDeclaration)
 map gi <Action>(GotoImplementation)
 
 " Goes to related components
-map gr <Action>(GotoRelated)
+map gc <Action>(GotoRelated)
 
 " Finds usages of the object
 map gu <Action>(FindUsages)
@@ -51,7 +51,7 @@ map gu <Action>(FindUsages)
 map gb <Action>(Back)
 map gf <Action>(Forward)
 
-" Navigates between solution errors
+" Navigates between solution errors (C# only)
 map <leader>e <Action>(ReSharperGotoNextErrorInSolution)
 map <leader>E <Action>(ReSharperGotoPrevErrorInSolution)
 
@@ -59,7 +59,7 @@ map <leader>E <Action>(ReSharperGotoPrevErrorInSolution)
 map <Space><Space> <Action>(AceAction)
 
 " Opens class search
-map <leader>t <Action>(GotoClass)
+map <Space>t <Action>(GotoClass)
 
 " Rename current element
 map <leader>r <Action>(RenameElement)
@@ -67,11 +67,11 @@ map <leader>r <Action>(RenameElement)
 " Opens surround option for the selected text
 map <A-s> <Action>(SurroundWith)
 
-" Collapses all blocks to definition
+" Collapses all blocks to definition (C# only)
 map <leader>cl <Action>(RiderCollapseToDefinitions)
 
 " Shows current file on File System tree
-map <leader>se <Action>(NERDTreeFind)
+map <leader>se :NERDTreeFind<CR>
 
 " Opens the terminal window
 map <A-t> <Action>(ActivateTerminalToolWindow)
@@ -108,9 +108,6 @@ map <leader>b <Action>(ToggleLineBreakpoint)
 map <leader>cc <Action>(SilentCodeCleanup)
 map <leader>f <Action>(ReformatCode)
 
-" Opens current file on solution view
-map <leader>se <Action>(LocateInSolutionView)
-
 " Adds ";" to the end of the current line
 map <Space>; mmA;<Esc>`m
 
@@ -128,12 +125,19 @@ map <leader>ce <Action>(CloseEditor)
 map <leader>cp <Action>(CloseAllUnpinnedEditors)
 map <leader>ca <Action>(CloseAllEditors)
 
+" Toggles project view panel
+map <leader>ss :NERDTreeToggle<CR>
+
 " Splits the editor
 map <Space>ws <Action>(SplitHorizontally)
 map <Space>wv <Action>(SplitVertically)
 
 " Comments selection
 map <Space>/ <Action>(CommentByLineComment)
+
+" Yank and delete text without ovewriting the register
+map <leader>d "_d
+map <leader>pp "_dP
 
 " Quick macro executor on q register.
 map Q @q
@@ -150,4 +154,3 @@ map za :actionlist<CR>
 
 " Toggles 'Find Action Id' feature
 map zi <Action>(VimFindActionIdAction)
-
