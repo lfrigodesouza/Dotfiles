@@ -11,6 +11,7 @@
 ### IMPORTS ###
 Import-Module -Name Terminal-Icons
 Import-Module PSReadLine
+Import-Module posh-git
 
 ### PLUGINS ###
 # PSReadLine
@@ -49,17 +50,33 @@ function ..(){
 }
 
 function vim(){
-    neovide --wsl $args
+    nvim $args
+}
+
+function neovim(){
+    nvim $args
 }
 
 function repos(){
     cd $HOME\Repos\$args
 }
 
+# Docker
+function docker(){
+	# This function makes it possible to interact with the Docker CLI installed on WSL
+	# directly from PowerShell without the need to append 'wls' to every command
+	wsl docker $args
+}
+function docker-start(){
+	# Checks whether docker is running or not, and starts it
+	wsl sudo service docker status || wsl sudo service docker start
+}
+
 # Git
 Set-Alias -Name g -Value git
 Function gs {git status}
 Function gpull {git pull}
+Function gpush {git push}
 Function gdiff() {git diff}
 Function gdiffc() {git diff --cached}
 Function grestore() {git restore .}
