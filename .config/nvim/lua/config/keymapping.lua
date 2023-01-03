@@ -78,4 +78,4 @@ map("n", "<A-p>", "<Cmd>BufferPin<CR>", opts)
 map("n", "<A-c>", "<Cmd>BufferClose<CR>", opts)
 
 -- LSP
-map("n", "<A-f>", "<Cmd>Format<CR>", opts)
+map("n", "<A-f>", "<Cmd>lua vim.lsp.buf.format()<CR>", opts)
