@@ -26,8 +26,14 @@ set clipboard+=ideaput
 set relativenumber number
 set timeoutlen=300
 set notimeout
+set ideajoin
 
 """ KEY MAPPINGS
+" Bookmarks
+map <leader>mb = <Action>(ToggleBookmarkWithMnemonic)
+map <leader>mr = <Action>(ToggleBookmark)
+map <leader>mg = <Action>(ShowTypeBookmarks)
+
 " Set space as the leader character
 noremap <SPACE> <Nop>
 let mapleader = "\\"
