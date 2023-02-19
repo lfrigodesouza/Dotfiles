@@ -14,7 +14,7 @@ import:
 
 ### FONTS ###
 font:
-  size: 10.0
+  size: 8.0
   normal:
     family: FiraCode Nerd Font
   bold:
