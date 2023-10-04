@@ -1,0 +1,160 @@
+"    __    ___________   _   ______________
+"   / /   / ____/ ___/  / | / / ____/_  __/
+"  / /   / /_   \__ \  /  |/ / __/   / /
+" / /___/ __/  ___/ / / /|  / /___  / /
+"/_____/_/    /____(_)_/ |_/_____/ /_/
+" https://LFrigoDeSouza.NET
+" https://github.com/lfrigodesouza/Dotfiles
+" 
+" Configuration file for VisualStudio's VSVim extension
+
+""" SETTINGS
+" Basic
+set hlsearch
+set hlsearch
+set ignorecase
+set incsearch
+set joinspaces
+set number
+
+" Custom
+set scrolloff=5
+set clipboard=unnamed
+set tabstop=4 
+set softtabstop=0 
+set expandtab 
+set shiftwidth=4 
+set laststatus=2
+
+""" KEY MAPPINGS
+" :vsc <CR>
+" Set space as the leader character
+noremap <SPACE> <Nop>
+let mapleader = "\\"
+
+" Bookmarks
+map <leader>mb :vsc Resharper.ReSharper_BookmarksBookmarksMenu<CR>
+
+" Shows documentationpop-up
+map gj :vsc Resharper.ReSharper_QuickDoc<CR>
+
+" Shows hover window
+map gh :vsc Resharper.ReSharper_AltEnter<CR>
+
+" Goes to Declaration
+map gb :vsc Recharper.ReSharper_GotoDeclaration<CR>
+
+" Goes to implementation
+map gi :vsc Resharper.ReSharper_GotoImplementations<CR>
+
+" Goes to related componenets
+map gc :vsc Resharper.ReSharper_GotoRelatedFiles<CR>
+
+" Shoes usages of object
+map gu :vsc Resharper.ReSharper_ShowUsages<CR>
+
+" Goes back and forward to previous location
+map gb :vsc Resharper.ReSharper_NavigateBackward<CR>
+map gf :vsc Resharper.ReSharper_NavigateForward<CR>
+
+" Navigates between solution errors (C# only)
+map <leader>e :vsc ReSharper.ReSharper_GotoNextErrorInSolution<CR>
+map <leader>E :vsc ReSharper.ReSharper_GotoPrevErrorInSolution<CR>
+
+" Activate PeasyMotion
+map <Space><Space> :vsc Tools.InvokePeasyMotion<CR>
+
+" Opens search
+map <Space>t :vsc ReSharper.ReSharper_GotoType<CR>
+
+" Rename current element
+map <leader>r :vsc ReSharper.ReSharper_Rename<CR>
+
+" Show refactor pop-up
+map <leader>R :vsc ReSharper.ReSharper_RefactorThis<Cr>
+
+" Opens surround options for the selected text
+map <leader>s :vsc ReSharper.ReSharper_SurroundWith<CR>
+
+" Collapses all blocks to definition (C# only)
+map <leader>cl :vsc Edit.CollapsetoDefinitions<CR>
+map <leader>sc :vsc Edit.StopOutlining<CR>
+
+" Show current file on File System tree
+map <leader>se :vsc Resharper.Resharper_LocateInSolutionOrAssemblyExplorer<CR>
+
+" Duplicates text
+map <Space>d :vsc ReSharper.ReSharper_DuplicateText<CR>
+
+" Insert template
+map <leaver>l :vsc ReSharper.ReSharper_LiveTemplatesInsert<CR>
+
+" Refactoring actions
+map <Space>v :vsc ReSharper.Resharper_IntroVariable<CR>
+map <Space>m :vsc ReSharper.ReSharper_ExtractMethod<CR>
+map <Space>o :vsc ReSharper.ReSharper_Move<CR>
+
+" Code selection
+map <leader>sd :vsc ReSharper.ReSharper_SelectContainingDeclaration<CR>
+
+" Testing
+map <leader>tr :vsc ReSharper.ReSharper_UnitTestRunFromContext<CR>
+map <leader>td :vsc ReSharper.ReSharper_UnitTestDebugContext<CR>
+map <leader>ta :vsc ReSharper.ReSharper_UnitTestRunSolution<CR>
+map <leader>tl :vsc ReSharper.ReSharper_UnitTestRunCurrentSession<CR>
+map <leader>tt :vsc ReSharper.ReSharper_ShowUnitTestSessions<CR>
+map <leader>tc :vsc ReSharper.ReSharper_CoverAllTestsFromSolution<CR>
+
+" Opens menu for code inspector
+map <leader>is :vsc ReSharper.ReSharper_InspectThis<CR>
+
+" Builds solution
+map <Space>b :vsc ReSharper.Resharper_Build<CR>
+
+" Toggles breakpoint
+map <leader>b :vsc ReSharper.Resharper_ToggleBreakpoint<CR>
+
+" Code cleanup and reformat
+map <Space>c :vsc ReSharper.Resharper_SilentCleanupCode<CR>
+map <leader>f :vsc ReSharper.ReSharper_ReformatCode<CR>
+
+" Adds ; to the end of the current line
+map <Space>; m`A;<Esc>``
+
+" Removes previous search highlight
+map <Space>n :noh<CR>
+
+" Navigates between method
+map ] :vsc ReSharper.ReSharper_GotoNextMethod<CR>
+map [ :vsc ReSharper.ReSharper_GotoPrevMethod<CR>
+
+
+" Pins, unpins and closes tabs and editors
+map <leader>pt :vsc Window.PinTab<CR>
+map <leader>ct :vsc File.Close<CR>
+map <leader>cp :vsc Window.CloseAllButPinned<CR>
+map <leader>ca :vsc Window.CloseAllDocuments<CR>
+
+" Splits the editor
+map <leader>ws :vsc Window.NewHorizontalTabGroup<CR>
+map <leader>wv :vsc Window.NewVerticalTabGroup<CR>
+
+" Comment selection
+map <Space>/ :vsc ReSharper.ReSharper_LineComment<CR>
+
+" Yank and delete text without ovewriting the register
+map <leader>d "_d
+map <leader>pp "_dP
+
+" Quick macro executor on q register.
+map Q @q
+
+" Toggles fullscreen mode
+map <A-z> :vsc View.FullScreen<CR>
+
+" Easily opens and sources .ideavimrc file
+map zl :e ~\.vsvimrc<CR>
+map zr :source ~\.vsvimrc<CR>
+
+"Lists all available IDE actions
+map za :vsc Tools.CustomizeKeyboard<CR>
