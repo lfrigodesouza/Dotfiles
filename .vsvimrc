@@ -27,7 +27,6 @@ set shiftwidth=4
 set laststatus=2
 
 """ KEY MAPPINGS
-" :vsc <CR>
 " Set space as the leader character
 noremap <SPACE> <Nop>
 let mapleader = "\\"
@@ -128,7 +127,6 @@ map <Space>n :noh<CR>
 map ] :vsc ReSharper.ReSharper_GotoNextMethod<CR>
 map [ :vsc ReSharper.ReSharper_GotoPrevMethod<CR>
 
-
 " Pins, unpins and closes tabs and editors
 map <leader>pt :vsc Window.PinTab<CR>
 map <leader>ct :vsc File.Close<CR>
@@ -156,5 +154,5 @@ map <A-z> :vsc View.FullScreen<CR>
 map zl :e ~\.vsvimrc<CR>
 map zr :source ~\.vsvimrc<CR>
 
-"Lists all available IDE actions
+" Lists all available IDE actions
 map za :vsc Tools.CustomizeKeyboard<CR>
